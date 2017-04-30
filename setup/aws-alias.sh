@@ -6,6 +6,17 @@ alias aws-ssh='ssh -i ~/.ssh/aws-key-fast-ai.pem ubuntu@$instanceIp'
 alias aws-stop='aws ec2 stop-instances --instance-ids $instanceId'
 alias aws-state='aws ec2 describe-instances --instance-ids $instanceId --query "Reservations[0].Instances[0].State.Name"'
 
+aws-download-file() {
+    filepath_remote=$1
+    filepath_local=$2
+    scp -i ~/.ssh/aws-key-fast-ai.pem  ubuntu@$instanceIp:"${filepath_remote}" "${filepath_local}"
+}
+
+aws-upload-file() {
+    filepath_local=$1
+    filepath_remote=$2
+    scp -i ~/.ssh/aws-key-fast-ai.pem "${filepath_local}" ubuntu@$instanceIp:"${filepath_remote}"
+}
 
 if [[ `uname` == *"CYGWIN"* ]]
 then
